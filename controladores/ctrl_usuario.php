@@ -17,12 +17,8 @@ class ControladorUsuario extends ControladorIndex {
 
   function landing ($params=array()){
     $tpl = Template::getInstance();
-    $data = array(
-      "url_base" => "/",
-      "proyectos" => "Fuck this framework",
-      "titulo" => "Shit"
-    );
-    $tpl->mostrar("usuarios_listado", $data);
+
+    $tpl->mostrar("landing", array());	
   }
 
  function listado($params=array()){
