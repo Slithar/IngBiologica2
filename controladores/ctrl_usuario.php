@@ -15,8 +15,18 @@ use Facebook\FacebookRequestException;
 
 class ControladorUsuario extends ControladorIndex {
 
+  function landing ($params=array()){
+    $tpl = Template::getInstance();
+    $data = array(
+      "url_base" => "/",
+      "proyectos" => "Fuck this framework",
+      "titulo" => "Shit"
+    );
+    $tpl->mostrar("usuarios_listado", $data);
+  }
+
  function listado($params=array()){
- 	
+
  	Auth::estaLogueado();
 
 	$buscar="";
@@ -35,7 +45,7 @@ class ControladorUsuario extends ControladorIndex {
 	 			$usr=$usuario->obtenerPorId($idABorrar);
 	 			//$mensaje="Error!! No se pudo borrar el usuario  <b>".$usr->getNombre()." ".$usr->getApellido()."</b>";
 	 			$mensaje="ERROR. No existe el usuario";
-	 			$usuarios=$usuario->getListado();	
+	 			$usuarios=$usuario->getListado();
 	 		}
 		}else if($params[0]=="mail"){
 	 		$usuario=new Usuario();
@@ -43,24 +53,24 @@ class ControladorUsuario extends ControladorIndex {
 	 		$usr=$usuario->obtenerPorId($idAEnviar);
 
 	 		$utils=new Utils();
-	 		$res=$utils->enviarEmail($usr->getEmail(),$usr->getNombre()." ".$usr->getApellido());	
+	 		$res=$utils->enviarEmail($usr->getEmail(),$usr->getNombre()." ".$usr->getApellido());
 	 		if($res){
 	 			//Redirigir al listado
 	 			$mensaje="Mail enviado!";
 	 			$usuarios=$usuario->getListado();
 	 		}else{
 	 			$mensaje="Error!! No se pudo enviar email al usuario  <b>".$usr->getNombre()." ".$usr->getApellido()."</b>";
-	 			$usuarios=$usuario->getListado();	
+	 			$usuarios=$usuario->getListado();
 	 		}
 	 	}else{
 	 		$usuario=new Usuario();
-			$usuarios=$usuario->getListado();	
+			$usuarios=$usuario->getListado();
 	 	}
 	}else{
  		$usuario=new Usuario();
-		$usuarios=$usuario->getListado();	
+		$usuarios=$usuario->getListado();
  	}
-	
+
 	//Llamar a la vista
  	$tpl = Template::getInstance();
  	$datos = array(
@@ -75,7 +85,7 @@ class ControladorUsuario extends ControladorIndex {
 
 }
 function buscar($params=array()){
- 	
+
  	Auth::estaLogueado();
 
 	$buscar="";
@@ -86,15 +96,15 @@ function buscar($params=array()){
 			$titulo="Buscando..";
 	 		$usuario=new Usuario();
 	 		$buscar=$_POST["buscar"];
-			$usuarios=$usuario->getBusqueda($buscar);	
+			$usuarios=$usuario->getBusqueda($buscar);
 	}else{
 		$usuario=new Usuario();
 		$usuarios=$usuario->getListado();
 	}
- 	
+
 	//Llamar a la vista
 	//require_once("vistas/usuarios_listado.php");
-	
+
  	$tpl = Template::getInstance();
  	$datos = array(
     'usuarios' => $usuarios,
@@ -103,7 +113,7 @@ function buscar($params=array()){
     'mensaje' => $mensaje,
     );
 
-	
+
 	$tpl->asignar('usuario_nuevo',$this->getUrl("usuario","nuevo"));
 	$tpl->mostrar('usuarios_listado',$datos);
 
@@ -125,7 +135,7 @@ function nuevo(){
 			$mensaje="Error! No se pudo agregar el usuario";
 		}
 
-		
+
 	}
 	$tpl = Template::getInstance();
 	$tpl->asignar('titulo',"Nuevo Usuario");
@@ -141,7 +151,7 @@ function login(){
 	// Initialize the Facebook SDK.
 	FacebookSession::setDefaultApplication( '1606231786259862', '47dd4cb4941076f7c287c977d2b84d1b' );
 	$helper = new FacebookRedirectLoginHelper('http://localhost/tip/ejemplos/framework/fb_login.php');
-	
+
 	$permissions = array(
 		   'scope' => 'public_profile,email'
 		);
@@ -149,7 +159,7 @@ function login(){
 
 	if(isset($_POST["email"])){
 		$usr= new Usuario();
-		
+
 		$email=$_POST["email"];
 		$pass=sha1($_POST["password"]);
 
@@ -160,7 +170,7 @@ function login(){
 			$mensaje="Error! No se pudo agregar el usuario";
 		}
 
-		
+
 	}
 	$tpl = Template::getInstance();
 	$tpl->asignar('titulo',"Nuevo Usuario");
@@ -225,7 +235,7 @@ function loginFB(){
 		    echo "Exception occured, code: " . $e->getCode();
 		    echo " with message: " . $e->getMessage();
 
-		  }   
+		  }
 	} else {
 
 	    // Generate the login URL for Facebook authentication.
@@ -240,7 +250,7 @@ function loginFB(){
 
 function favoritos(){
 	$usuario=new Usuario();
-	$usuarios=$usuario->getListado();	
+	$usuarios=$usuario->getListado();
 	echo json_encode($usuarios);
 }
 

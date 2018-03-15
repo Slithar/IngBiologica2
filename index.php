@@ -5,10 +5,10 @@ require "controladores/ctrl_index.php";
 require_once('clases/template.php');
 $controlIndex=new ControladorIndex();
 
-$tpl = Template::getInstance();
+/*$tpl = Template::getInstance();
 $tpl->asignar('url_base',"http://localhost/tip/ejemplos/framework/");
 $tpl->asignar('url_logout',$controlIndex->getUrl("usuario","logout"));
-$tpl->asignar('proyecto',"Apps Web");
+$tpl->asignar('proyecto',"Apps Web");*/
 
 //Cargamos controladores y acciones
 
@@ -16,14 +16,14 @@ if(isset($_GET['url'])){
 	$query = $_GET['url'];
 	$request = explode('/', $query);
 	$controller = (!empty($request[0])) ? $request[0] : 'usuario';
-	$action = (!empty($request[1])) ? $request[1] : 'listado';
+	$action = (!empty($request[1])) ? $request[1] : 'landing';
 	$params=array();
-	for ($i=2; $i <count($request) ; $i++) { 
+	for ($i=2; $i <count($request) ; $i++) {
 		$params[]=$request[$i];
 	}
 }else{
 	$controller="usuario";
-	$action="listado";
+	$action="landing";
 	$params=array();
 }
 

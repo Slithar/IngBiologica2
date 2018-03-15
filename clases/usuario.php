@@ -1,24 +1,24 @@
 <?php
 class Usuario extends ClaseBase {
 	public $id=0;
-    public $nombre = '';
+  public $nombre = '';
 	public $apellido = '';
-    public $ci = '';
+  public $ci = '';
 	public $edad = 0;
-    public $email='';
+  public $email='';
     //Contructor que recibe un array
 	public function __construct($obj=NULL) {
         //$this->db=DB::conexion();
         if(isset($obj)){
             foreach ($obj as $key => $value) {
                 $this->$key=$value;
-            }    
+            }
         }
         $tabla="usuarios";
         parent::__construct($tabla);
 
     }
-   
+
     public function getid() {
         return $this->id;
     }
@@ -57,8 +57,8 @@ class Usuario extends ClaseBase {
 
     public function getBusqueda($buscar){
         $usuarios=array();
-        $stmt = $this->getDB()->prepare( 
-            "SELECT * FROM usuarios 
+        $stmt = $this->getDB()->prepare(
+            "SELECT * FROM usuarios
             WHERE nombre like ? " );
         // Le agrego % para busque los que empiezan con la letra o terminan
         $buscar= '%'.$buscar.'%';
@@ -73,7 +73,7 @@ class Usuario extends ClaseBase {
     }
 
     public function agregar(){
-        
+
         $nombre=$this->getNombre();
         $ape=$this->getApellido();
         $edad=$this->getEdad();
@@ -81,14 +81,14 @@ class Usuario extends ClaseBase {
         $password = sha1("123456");
         $email=$this->getEmail();
 
-        $stmt = $this->getDB()->prepare( 
-            "INSERT INTO usuarios 
-        (nombre, apellido,edad, ci, email,pass) 
+        $stmt = $this->getDB()->prepare(
+            "INSERT INTO usuarios
+        (nombre, apellido,edad, ci, email,pass)
            VALUES (?,?,?,?,?,?)" );
         $stmt->bind_param("ssisss",$nombre,
             $ape,$edad,$ci,$email,$password);
         return $stmt->execute();
-    
+
     }
 
     public function login($email,$pass){
@@ -98,7 +98,7 @@ class Usuario extends ClaseBase {
         $resultado = $stmt->get_result();
         if($resultado->num_rows<1){
             return false;
-        }    
+        }
         $res=$resultado->fetch_object();
         Session::init();
         Session::set('usuario_logueado', true);
@@ -107,10 +107,10 @@ class Usuario extends ClaseBase {
         Session::set('usuario_email', $res->email);
         return true;
     }
-    
+
    public function logout(){
         Session::init();
         Session::destroy();
-   } 
+   }
 }
 ?>
