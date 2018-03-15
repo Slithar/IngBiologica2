@@ -1,0 +1,19 @@
+body{
+	background-image:url('../images/logobyn.svg');
+	background-repeat: no-repeat;
+	background-position: auto;
+	background-attachment: fixed;
+	background-position: center; 
+	background-size: 40%;
+}
+input{
+	text-align: center;
+}
+.centered-text{
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+}
+@media only screen and (min-width: 768px){
+	
+}
